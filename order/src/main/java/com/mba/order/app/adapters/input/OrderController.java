@@ -6,10 +6,9 @@ import com.mba.order.app.adapters.input.dtos.OrderResponse;
 import com.mba.order.app.application.port.in.OrderServicePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,8 +19,14 @@ public class OrderController {
     private final Converter converter;
 
     @PostMapping("/order")
-    public ResponseEntity<OrderResponse> order (@RequestBody OrderRequest request){
+    public ResponseEntity<OrderResponse> order(@RequestBody OrderRequest request){
         var domain = servicePort.order(converter.ConvertRequestToDomain(request));
         return ResponseEntity.ok(converter.ConvertDomainToResponse(domain));
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<OrderResponse>> list(){
+        var domain = servicePort.list();
+        return ResponseEntity.ok(converter.ConvertListDomainToListResponse(domain));
     }
 }

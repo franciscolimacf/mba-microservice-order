@@ -6,6 +6,8 @@ import com.mba.order.app.application.port.out.OrderRepositoryPort;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @AllArgsConstructor
 public class OrderRepositoryAdapter implements OrderRepositoryPort {
@@ -17,5 +19,11 @@ public class OrderRepositoryAdapter implements OrderRepositoryPort {
     public OrderDomain order(OrderDomain domain) {
         var entity = repository.save(converter.ConvertDomainToEntity(domain));
         return converter.ConvertEntityToDomain(entity);
+    }
+
+    @Override
+    public List<OrderDomain> list(){
+        var entities = repository.findAll();
+        return converter.ConvertListEntityToListDomain(entities);
     }
 }

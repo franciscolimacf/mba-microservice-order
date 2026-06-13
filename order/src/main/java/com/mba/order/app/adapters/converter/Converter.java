@@ -6,6 +6,8 @@ import com.mba.order.app.adapters.output.entity.OrderEntity;
 import com.mba.order.app.application.domain.OrderDomain;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class Converter {
     public OrderDomain ConvertRequestToDomain(OrderRequest request){
@@ -36,5 +38,15 @@ public class Converter {
                 .cpf(domain.getCpf())
                 .salario(domain.getSalario())
                 .build();
+    }
+
+    public List<OrderDomain> ConvertListEntityToListDomain(List<OrderEntity> entities){
+        return entities.stream()
+                .map(this::ConvertEntityToDomain).toList();
+    }
+
+    public List<OrderResponse> ConvertListDomainToListResponse(List<OrderDomain> domains){
+        return domains.stream()
+                .map(this::ConvertDomainToResponse).toList();
     }
 }
